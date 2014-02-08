@@ -1,0 +1,151 @@
+<RootWidget>:
+    toggle32: toggle32
+    toggle64: toggle64
+    float_decimal: float_decimal
+    float_hex: float_hex
+    double_decimal: double_decimal
+    double_hex: double_hex
+        
+    StackLayout: 
+        BoxLayout:
+            padding: '10dp'
+            spacing: '15dp'
+            size_hint: 1, None
+            pos_hint: {'top': 1}
+            
+            Label:
+                size_hint: 1, None
+                text: 'IEEE754 Helper'
+                text_size: self.width, None
+                font_size: '30pt'
+    
+    
+        Accordion:
+            size_hint: 1, 0.8
+            orientation: 'vertical'
+            
+            AccordionItem:
+                collapse: False
+                title: '32-bit (single precision)'
+                
+                # MAIN LAYOUT (SINGLE):
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, 1
+                    padding: 10
+                    spacing: 10
+                    
+                    BoxLayout:
+                        # BINARY CHECKBOX WIDGETS GO HERE:
+                        id: toggle32
+                        size_hint: 1, None
+                        
+                    
+                    GridLayout:
+                        cols: 3
+                        size_hint: 1, 0.8
+                        padding: 10
+                        spacing: 10
+                        
+                        Label:
+                            size_hint_y: None
+                            height: 30
+                            halign: 'right'
+                            text: "Decimal:"
+                        TextInput:
+                            id: float_decimal
+                            input_type: 'number'
+                            size_hint_y: None
+                            height: 30
+                            multiline: False
+                            #Note: float_hex is passed to be written to in this method
+                            on_text_validate: root.convert_float(float_decimal, float_hex)
+                        Button:
+                            size_hint_y: None
+                            height: 30
+                            on_press: root.convert_float(float_decimal, float_hex)
+                            text: "Convert!"
+                            
+                        Label:
+                            size_hint_y: None
+                            height: 30
+                            halign: 'right'
+                            text: "Hex:"
+                        TextInput:
+                            id: float_hex
+                            size_hint_y: None
+                            height: 30
+                            multiline: False
+                            on_text_validate: root.convert_hex_float()
+                        Button:
+                            size_hint_y: None
+                            height: 30
+                            on_press: root.convert_hex_float()
+                            text: "Convert!"
+
+
+            AccordionItem:
+                title: '64-bit (double precision)'
+                
+                # MAIN LAYOUT (DOUBLE):
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, 1
+                    padding: 10
+                    spacing: 10
+                    
+                    BoxLayout:
+                        # BINARY CHECKBOX WIDGETS GO HERE:
+                        orientation: 'vertical'
+                        id: toggle64
+                        size_hint: 1, 0.5
+                        
+                    GridLayout:
+                        cols: 3
+                        size_hint: 1, 0.5
+                        padding: 10
+                        spacing: 10
+                        
+                        Label:
+                            size_hint_y: None
+                            height: 30
+                            halign: 'right'
+                            text: "Decimal:"
+                        TextInput:
+                            id: double_decimal
+                            input_type: 'number'
+                            size_hint_y: None
+                            height: 30
+                            multiline: False
+                            on_text_validate: root.convert_double(double_decimal, double_hex)
+                        Button:
+                            size_hint_y: None
+                            height: 30
+                            text: "Convert!"
+                            on_press: root.convert_double(double_decimal, double_hex)
+                            
+                        Label:
+                            size_hint_y: None
+                            height: 30
+                            halign: 'right'
+                            text: "Hex:"
+                        TextInput:
+                            id: double_hex
+                            multiline: False
+                            size_hint_y: None
+                            on_text_validate: root.convert_hex_double()
+                            height: 30
+                        Button:
+                            size_hint_y: None
+                            height: 30
+                            text: "Convert!"
+                            on_press: root.convert_hex_double()
+    
+<ToggleBar>:
+    canvas.before:
+        Color:
+            rgba: self.color
+        Rectangle:
+            # self here refers to the widget i.e BoxLayout
+            pos: self.pos
+            size: self.size

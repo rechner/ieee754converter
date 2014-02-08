@@ -9,7 +9,7 @@ Compile instructions
 ====================
 
 * Install [kivy](http://kivy.org/#home)
-* Clone this repo: `git clone git@github.com:/jkltechinc/ieee754converter/ieee754converter.git`
+* Clone this repo: `git clone git@github.com:/jkltechinc/ieee754converter.git`
 * Run with `python main.py`
 
 Android instructions

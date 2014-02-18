@@ -149,6 +149,9 @@ class RootWidget(BoxLayout):
     self.sign.set_value(binary_string[0])
     self.exponent.set_value(binary_string[1:9])
     self.mantissa.set_value(binary_string[9:])
+    
+    #Coerce the input value:
+    self.bin_to_float()
 
     #Convert float to hex and display in text input:
     hex_textbox.text = hex(int(binary_string, 2))
@@ -166,7 +169,6 @@ class RootWidget(BoxLayout):
     self.mantissa.set_value(binary_string[9:32])
     
     #Convert to float:
-    #~ self.float_decimal.text = str(float.fromhex(self.float_hex.text))
     self.bin_to_float()
     
   def convert_hex_double(self):
@@ -202,6 +204,9 @@ class RootWidget(BoxLayout):
     self.mantissa_double.set_value(binary_string[12:])
     
     hex_textbox.text = hex(int(binary_string, 2))
+    
+    #Coerce the input value
+    self.bin_to_double()
     
   def bin_to_float(self):
     self.binary_string = "{}{}{}".format(self.sign.value,
@@ -270,7 +275,13 @@ def float_to_binary(num):
   """
   Converts a python float to a 32-bit single precision IEEE754 binary string.
   """
-  return ''.join(bin(ord(c)).replace('0b', '').rjust(8, '0') for c in struct.pack('!f', num))
+  try:
+	return ''.join(bin(ord(c)).replace('0b', '').rjust(8, '0') for c in struct.pack('!f', num))
+  except OverflowError:
+		if str(num)[0] == '-':
+			return float_to_binary(float('-inf'))
+		else:
+			return float_to_binary(float('inf'))
   
 def binary_to_float(binstring):
   """
